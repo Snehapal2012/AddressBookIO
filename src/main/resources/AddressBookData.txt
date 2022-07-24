@@ -1,0 +1,1 @@
+[Contacts{firstName='sneha', lastName='pal', address='belghoria', city='kolkata', state='westbengal', zip=700056, email='sneha@gmail.com', phoneNumber=9876543210}, Contacts{firstName='sangita', lastName='goswami', address='mahadevapura', city='bangalore', state='karnataka', zip=500034, email='sangita@gmail.com', phoneNumber=8123456790}]
