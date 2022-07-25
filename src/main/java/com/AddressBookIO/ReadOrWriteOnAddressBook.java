@@ -1,5 +1,9 @@
 package com.AddressBookIO;
-
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.io.Reader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -347,7 +351,7 @@ public class ReadOrWriteOnAddressBook {
             display(contactDetails);}
         int number;
         System.out.println("Please choose the Operation for Address book: 1)Input Details, 2)Edit Details, 3)Delete Details, 4)Search by City, 5)Search by State, 6)Display, 7)Sort Person alphabetically " +
-                "8)Write file, 9)Read file");
+                "8)Write file, 9)Read file, 10)Write & Read CSV file");
         number=input.nextInt();
         switch (number){
             case 1: operations.inputDetails(contactDetails);
@@ -367,6 +371,8 @@ public class ReadOrWriteOnAddressBook {
             case 8: operations.writeFile();
                 break;
             case 9: operations.readFile();
+                break;
+            case 10: operations.writeCSV();
                 break;
             default:
                 System.out.println("Please enter valid input!");
@@ -396,6 +402,43 @@ public class ReadOrWriteOnAddressBook {
                 System.out.println(input);
             }
         }catch (IOException e){
+            throw new RuntimeException(e);
+        }
+    }
+    public static void writeCSV(){
+        ReadOrWriteOnAddressBook readOrWriteOnAddressBook=new ReadOrWriteOnAddressBook();
+        File csvFile=new File("C:\\Users\\DELL\\IdeaProjects\\AddressBookUsingIO\\src\\main\\resources\\AddressBook.csv");
+        try{
+            FileWriter fileWriterCSV=new FileWriter(csvFile);
+            fileWriterCSV.write(String.valueOf(readOrWriteOnAddressBook.contactDetails));
+            fileWriterCSV.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        readCSV();
+    }
+    public static void readCSV(){
+        File csvFile=new File("C:\\Users\\DELL\\IdeaProjects\\AddressBookUsingIO\\src\\main\\resources\\AddressBook.csv");
+        try(
+                Reader reader=Files.newBufferedReader(Paths.get(String.valueOf(csvFile)));
+                CSVReader openCSVReader=new CSVReader(reader);
+                ){
+            String[] nextRecord;
+            while ((nextRecord=openCSVReader.readNext()) != null){
+                System.out.println("First name: "+nextRecord[0]);
+                System.out.println("Last name: "+nextRecord[1]);
+                System.out.println("Address: "+nextRecord[2]);
+                System.out.println("City: "+nextRecord[3]);
+                System.out.println("State: "+nextRecord[4]);
+                System.out.println("Zip: "+nextRecord[5]);
+                System.out.println("Phone number: "+nextRecord[6]);
+                System.out.println("Email: "+nextRecord[7]);
+                System.out.println("----------------------------------------------------");
+            }
+        }catch (IOException e){
+            throw new RuntimeException();
+        }catch (CsvValidationException e) {
             throw new RuntimeException(e);
         }
     }
